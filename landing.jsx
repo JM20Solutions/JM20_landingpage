@@ -145,19 +145,19 @@ const Hero = ({onContact}) => (
       </div>
 
       <h1 style={{fontSize:"clamp(2.6rem,6vw,4.75rem)", fontWeight:800, lineHeight:1.05, color:T.text, letterSpacing:"-0.035em", marginBottom:"1.5rem"}}>
-        AI that handles your support.<br/>
-        <span style={{color:T.terra}}>Hackers that handle nothing.</span>
+        AI that handles your customer support.<br/>
+        <span style={{color:T.terra}}>So you don’t have to worry about security, scale, or downtime—built on a security-first foundation..</span>
       </h1>
 
       <p style={{fontSize:"1.1rem", color:T.muted, lineHeight:1.75, maxWidth:600, margin:"0 auto 0.875rem", fontWeight:400}}>
-        We build secure, production-grade AI support systems for EU businesses — agentic workflows on <strong style={{color:T.text, fontWeight:700}}>Web, Telegram & WhatsApp</strong>, owner dashboards, and RAG chatboxes.
+        We build secure, production-grade AI support systems for EU businesses—automating customer conversations across web, WhatsApp, and Telegram, with full visibility and control. <strong style={{color:T.text, fontWeight:700}}>Web, Telegram & WhatsApp</strong>, owner dashboards, and RAG chatboxes.
       </p>
       <p style={{fontSize:"0.9rem", color:T.muted, marginBottom:"2.75rem"}}>
         Built on EU infrastructure. GDPR-compliant by design. You own every piece of it.
       </p>
 
       <div style={{display:"flex", gap:"1rem", justifyContent:"center", flexWrap:"wrap"}}>
-        <button className="btn-primary" onClick={onContact} style={{padding:"0.9rem 2.25rem", fontSize:"1rem", borderRadius:10, boxShadow:`0 4px 20px rgba(28,25,23,0.2)`}}>Request a free demo →</button>
+        <button className="btn-primary" onClick={onContact} style={{padding:"0.9rem 2.25rem", fontSize:"1rem", borderRadius:10, boxShadow:`0 4px 20px rgba(28,25,23,0.2)`}}>Book a demo →</button>
         <a href="#demo" style={{background:T.surface, color:T.text, padding:"0.9rem 2.25rem", borderRadius:10, fontSize:"1rem", fontWeight:600, border:`1px solid ${T.border}`, boxShadow:T.shadow}}>See it live ↓</a>
       </div>
 
@@ -192,13 +192,13 @@ const Security = () => (
       <div>
         <span style={{fontSize:"0.75rem", color:T.terra, fontWeight:700, letterSpacing:"0.1em"}}>SECURITY ARCHITECTURE</span>
         <h2 style={{fontSize:"clamp(1.75rem,3.5vw,2.5rem)", fontWeight:800, color:T.text, marginTop:"0.6rem", marginBottom:"1rem", letterSpacing:"-0.025em", lineHeight:1.15}}>
-          Four layers between<br/>hackers and your data.
+          Four security layers between <br/>your data and external access.
         </h2>
         <p style={{color:T.muted, fontSize:"0.95rem", lineHeight:1.7, marginBottom:"1.5rem"}}>
-          Most automation tools connect directly to your database. One leaked credential and everything is exposed. We don't work that way.
+          Most automation tools connect directly to your database. One leaked credential can expose everything. We don’t work that way.
         </p>
         <p style={{color:T.muted, fontSize:"0.95rem", lineHeight:1.7, marginBottom:"2rem"}}>
-          Every request passes through four independent security layers. Your data never leaves EU infrastructure, and even if credentials are compromised, attackers hit a wall at layer one.
+          Every request passes through four independent security layers. Your data stays within EU infrastructure, and even if credentials are compromised, access is stopped at the first layer.
         </p>
         <div style={{display:"flex", flexDirection:"column", gap:"0.625rem"}}>
           {["GDPR Article 28 compliant","EU data residency guaranteed","Zero direct DB exposure","End-to-end scoped access"].map(t => (
@@ -409,7 +409,7 @@ const AgentMockup = () => {
       <div style={{background:cfg.color+"15", padding:"0.75rem 1rem", borderBottom:"1px solid rgba(255,255,255,0.05)", display:"flex", alignItems:"center", gap:"0.625rem"}}>
         <cfg.Logo size={28}/>
         <div>
-          <div style={{fontWeight:700, fontSize:"0.8rem", color:"#fff"}}>Acme Support</div>
+          <div style={{fontWeight:700, fontSize:"0.8rem", color:"#fff"}}>JM20 CustomerSupport</div>
           <div style={{display:"flex", alignItems:"center", gap:"0.35rem"}}><div style={{width:5,height:5,borderRadius:"50%",background:"#22c55e"}}/><span style={{fontSize:"0.65rem",color:"rgba(255,255,255,0.45)"}}>AI Agent · {cfg.label}</span></div>
         </div>
         <div style={{marginLeft:"auto", fontSize:"0.65rem", color:"rgba(255,255,255,0.3)", background:"rgba(255,255,255,0.06)", borderRadius:4, padding:"0.2rem 0.5rem"}}>n8n + RAG</div>
@@ -435,7 +435,7 @@ const RAGMockup = () => (
     <div style={{padding:"0.875rem 1.25rem", background:T.warm, borderBottom:`1px solid ${T.border}`, display:"flex", alignItems:"center", gap:"0.625rem"}}>
       <div style={{width:30, height:30, borderRadius:"50%", background:"#22c55e", display:"flex", alignItems:"center", justifyContent:"center", fontSize:14}}>🤖</div>
       <div>
-        <div style={{fontWeight:700, fontSize:"0.8rem", color:T.text}}>Acme FAQ Assistant</div>
+        <div style={{fontWeight:700, fontSize:"0.8rem", color:T.text}}>JM20 FAQ Assistant</div>
         <div style={{display:"flex", alignItems:"center", gap:"0.35rem"}}><div style={{width:5,height:5,borderRadius:"50%",background:"#22c55e"}}/><span style={{fontSize:"0.68rem",color:T.muted}}>Powered by RAG · 24/7</span></div>
       </div>
     </div>
@@ -464,28 +464,28 @@ const PRODUCTS = [
   {
     id:"agent", tag:"AI SUPPORT AGENT", accent:"#3b82f6", bg:"#F0F7FF", tagBg:"#dbeafe",
     headline:"One agent. Every channel your customers use.",
-    sub:"Stop choosing between Web, Telegram and WhatsApp. Your AI support agent works natively on all three — same intelligence, same knowledge base, channel-appropriate responses.",
-    benefits:["Intent detection → RAG retrieval → LLM response in under 2s","Smart escalation with full context when humans are needed","Works 24/7 without adding headcount","Handles refunds, order status, billing, FAQs and more"],
+    sub:"Stop choosing between Web, Telegram, and WhatsApp. Your AI support agent works across all channels—same intelligence, same knowledge base, consistent responses everywhere.",
+    benefits:["Understands intent and retrieves the right knowledge instantly","Escalates to humans with full conversation context","Works 24/7 without adding headcount","Handles refunds, order status, billing, FAQs and more"],
     Visual: AgentMockup, reverse: false,
   },
   {
     id:"dashboard", tag:"OWNER DASHBOARD", accent:T.terra, bg:"#1C1917", tagBg:"rgba(196,99,58,0.2)", dark:true,
     headline:"See everything. Control everything.",
-    sub:"A real-time command centre built for business owners, not developers. Know exactly how your AI is performing, what it's costing, and where human agents are needed — at a glance.",
+    sub:"A real-time command centre built for business owners—not developers. Know exactly how your AI support system is performing, what it costs, and when human agents need to step in.",
     benefits:["Live ticket volume, automation rate and response times","LLM token usage and cost monitoring — no surprise bills","Per-channel breakdown: Web, Telegram, WhatsApp","Workflow health alerts before problems reach customers"],
     Visual: DashboardMockup, reverse: true,
   },
   {
     id:"nl2sql", tag:"NL2SQL INTERFACE", accent:"#7c6af7", bg:"#F5F3FF", tagBg:"#ede9fe",
     headline:"Ask your data anything. In plain English.",
-    sub:"Your business data answers questions — without a data analyst, without SQL, without waiting. Type a question and get instant results from across all your connected data sources.",
+    sub:"Your business data answers questions instantly—no SQL, no dashboards, no waiting for analysts. Just ask, and get answers across all your connected systems.",
     benefits:["Works across all your connected databases — no migration needed","Results in seconds, not hours","Secured behind Edge Functions — no direct DB access","Query Stripe revenue, support tickets and orders in one question"],
     Visual: NL2SQLMockup, reverse: false,
   },
   {
     id:"chatbox", tag:"RAG FAQ CHATBOX", accent:"#16a34a", bg:"#F0FDF4", tagBg:"#dcfce7",
     headline:"Your FAQ, available 24/7. No humans required.",
-    sub:"An AI chatbox trained exclusively on your content — product info, policies, shipping, billing. Embeds on any website in minutes. Answers instantly, escalates gracefully.",
+    sub:"An AI chatbox trained exclusively on your content—product info, policies, shipping, billing. Embed it on any website in minutes. It answers instantly and escalates when needed.",
     benefits:["Trained only on your approved content — no hallucinations","Embeddable on any website with one line of code","Handles the 80% of repetitive questions automatically","Escalates to human agents when it genuinely can't help"],
     Visual: RAGMockup, reverse: true,
   },
@@ -496,8 +496,8 @@ const Services = () => (
     {/* Section header */}
     <div style={{textAlign:"center", padding:"5rem 3rem 3rem"}}>
       <span style={{fontSize:"0.75rem", color:T.terra, fontWeight:700, letterSpacing:"0.1em"}}>WHAT WE BUILD</span>
-      <h2 style={{fontSize:"clamp(1.75rem,4vw,2.75rem)", fontWeight:800, color:T.text, marginTop:"0.5rem", letterSpacing:"-0.025em"}}>Five tools. One secure stack.</h2>
-      <p style={{color:T.muted, fontSize:"0.95rem", maxWidth:520, margin:"0.75rem auto 0", lineHeight:1.7}}>Each product is a standalone tool. Together they cover everything from customer support to business intelligence.</p>
+      <h2 style={{fontSize:"clamp(1.75rem,4vw,2.75rem)", fontWeight:800, color:T.text, marginTop:"0.5rem", letterSpacing:"-0.025em"}}>Five tools. One unified system.</h2>
+      <p style={{color:T.muted, fontSize:"0.95rem", maxWidth:520, margin:"0.75rem auto 0", lineHeight:1.7}}>Each product works independently, but together they form a secure AI stack for customer support and operations—from conversations to insights.</p>
     </div>
 
     {PRODUCTS.map((p,i) => (
@@ -681,7 +681,7 @@ const DashboardDemo = () => {
       <div style={{padding:"0.875rem 1.5rem", background:T.warm, borderBottom:`1px solid ${T.border}`, display:"flex", alignItems:"center", justifyContent:"space-between", flexWrap:"wrap", gap:"0.75rem"}}>
         <div style={{display:"flex", alignItems:"center", gap:"0.6rem"}}>
           {["#ef4444","#f59e0b","#22c55e"].map(c => <div key={c} style={{width:10, height:10, borderRadius:"50%", background:c}}/>)}
-          <span style={{marginLeft:"0.5rem", fontWeight:600, fontSize:"0.8rem", color:T.muted}}>Support Dashboard — Acme Corp</span>
+          <span style={{marginLeft:"0.5rem", fontWeight:600, fontSize:"0.8rem", color:T.muted}}>Support Dashboard — JM20 </span>
         </div>
         <div style={{display:"flex", gap:"0.5rem", alignItems:"center", flexWrap:"wrap"}}>
           <div style={{display:"flex", background:T.bg, border:`1px solid ${T.border}`, borderRadius:8, overflow:"hidden"}}>
@@ -841,7 +841,7 @@ const CHANNEL_CONVOS = {
   ],
   telegram:[
     {from:"user",text:"/start"},
-    {from:"bot",text:"👋 Welcome to Acme Support on Telegram! I can help with orders, returns, billing and more. What can I help you with today?"},
+    {from:"bot",text:"👋 Welcome to JM20 Customer Support on Telegram! I can help with orders, returns, billing and more. What can I help you with today?"},
     {from:"user",text:"I need to return a product"},
     {from:"bot",text:"Of course! I just need your order number to get started — you'll find it in your confirmation email starting with #ORD-. What's yours?"},
     {from:"user",text:"#ORD-7743"},
@@ -1080,7 +1080,7 @@ const Pricing = ({onContact}) => (
           <ul style={{listStyle:"none", display:"flex", flexDirection:"column", gap:"0.75rem", marginBottom:"2rem"}}>
             {t.features.map(f => <li key={f} style={{display:"flex", gap:"0.625rem", color:T.muted, fontSize:"0.875rem", alignItems:"flex-start"}}><span style={{color:T.terra, fontWeight:700, marginTop:1}}>✓</span>{f}</li>)}
           </ul>
-          <button onClick={onContact} style={{display:"block", width:"100%", textAlign:"center", padding:"0.75rem", borderRadius:9, background:t.pop?T.terra:"transparent", color:t.pop?"#fff":T.text, border:t.pop?"none":`1px solid ${T.border}`, fontWeight:700, fontSize:"0.9rem", cursor:"pointer"}}>Request a demo →</button>
+          <button onClick={onContact} style={{display:"block", width:"100%", textAlign:"center", padding:"0.75rem", borderRadius:9, background:t.pop?T.terra:"transparent", color:t.pop?"#fff":T.text, border:t.pop?"none":`1px solid ${T.border}`, fontWeight:700, fontSize:"0.9rem", cursor:"pointer"}}>Schedule a demo →</button>
         </div>
       ))}
     </div>
@@ -1132,7 +1132,7 @@ const ContactPage = ({onBack}) => {
             Ready to put AI<br/>to work?
           </h1>
           <p style={{color:T.muted, fontSize:"0.975rem", lineHeight:1.7, marginBottom:"2.5rem"}}>
-            Request a demo and see how JM20 can reduce your support workload while keeping your data secure inside the EU.
+            Schedule a demo and see how JM20 can reduce your support workload while keeping your data secure inside the EU.
           </p>
           <div style={{display:"flex", flexDirection:"column", gap:"1rem", marginBottom:"3rem"}}>
             {[
@@ -1238,7 +1238,7 @@ export default function App() {
         <Pricing onContact={() => setPage("contact")}/>
         {/* CTA */}
         <section style={{padding:"6rem 3rem", textAlign:"center", background:T.warm, borderTop:`1px solid ${T.border}`}}>
-          <h2 style={{fontSize:"clamp(1.75rem,4vw,2.75rem)", fontWeight:800, color:T.text, letterSpacing:"-0.025em", marginBottom:"1rem"}}>Your data never leaves the EU.<br/><span style={{color:T.terra}}>Your competitors' data might.</span></h2>
+          <h2 style={{fontSize:"clamp(1.75rem,4vw,2.75rem)", fontWeight:800, color:T.text, letterSpacing:"-0.025em", marginBottom:"1rem"}}>Your data never leaves the EU.<br/><span style={{color:T.terra}}>Your competitors don’t get that guarantee.</span></h2>
           <p style={{color:T.muted, fontSize:"1rem", maxWidth:480, margin:"0 auto 2.5rem", lineHeight:1.7}}>Book a free 30-minute demo. We'll show you exactly how the system works — live, on your questions.</p>
           <button className="btn-primary" onClick={() => setPage("contact")} style={{padding:"1rem 2.75rem", fontSize:"1rem", borderRadius:10, boxShadow:`0 6px 24px rgba(28,25,23,0.2)`}}>Request a free demo →</button>
           <div style={{marginTop:"2.5rem", color:"#C4B8B0", fontSize:"0.8rem", fontWeight:500}}>Spain & EU · GDPR Article 28 · 20+ years experience · You own the system</div>
