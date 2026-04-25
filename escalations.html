@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>JM20 — Priority Resolution</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    html{scroll-behavior:smooth;height:100%}
+    body{background:#FAF8F5;font-family:'Plus Jakarta Sans',sans-serif;min-height:100vh;color:#1C1917}
+    ::selection{background:#F0D4C4;color:#9E4E2C}
+    ::-webkit-scrollbar{width:5px}
+    ::-webkit-scrollbar-thumb{background:#E8DDD5;border-radius:3px}
+
+    @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+    @keyframes popIn{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:scale(1)}}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    /* ── NAV ── */
+    .nav{
+      height:60px;display:flex;align-items:center;justify-content:space-between;
+      padding:0 2.5rem;border-bottom:1px solid #E8DDD5;background:#FFFFFF;
+      position:sticky;top:0;z-index:100;
+    }
+    .logo{display:flex;align-items:center;gap:0.5rem;text-decoration:none}
+    .logo-name{font-weight:800;font-size:1.05rem;color:#1C1917;letter-spacing:-0.025em}
+    .nav-badge{
+      display:flex;align-items:center;gap:0.4rem;
+      background:#FEF2F2;border:1px solid #FECACA;
+      border-radius:100px;padding:0.3rem 0.875rem;
+    }
+    .nav-badge-dot{width:6px;height:6px;border-radius:50%;background:#EF4444;animation:pulse 2s infinite}
+    .nav-badge-text{font-size:0.75rem;font-weight:700;color:#EF4444;letter-spacing:0.04em}
+
+    /* ── LAYOUT ── */
+    .page{display:grid;grid-template-columns:1fr 1fr;min-height:calc(100vh - 60px)}
+
+    /* ── LEFT PANEL ── */
+    .left{
+      background:#F5EDE6;padding:5rem 4rem;
+      display:flex;flex-direction:column;justify-content:center;
+    }
+    .left-tag{font-size:0.72rem;font-weight:700;color:#C4633A;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:1rem}
+    .left-title{font-size:clamp(2rem,3.5vw,2.75rem);font-weight:800;color:#1C1917;letter-spacing:-0.03em;line-height:1.1;margin-bottom:1.25rem}
+    .left-title span{color:#C4633A}
+    .left-sub{color:#78716C;font-size:0.975rem;line-height:1.7;margin-bottom:2.5rem}
+    .info-card{
+      background:#FFFFFF;border:1px solid #E8DDD5;border-radius:14px;
+      padding:1.5rem;margin-bottom:1.5rem;
+      box-shadow:0 1px 3px rgba(196,99,58,0.07),0 6px 20px rgba(0,0,0,0.05);
+    }
+    .info-card-title{font-weight:700;font-size:0.875rem;color:#1C1917;margin-bottom:0.75rem;display:flex;align-items:center;gap:0.5rem}
+    .info-row{display:flex;align-items:flex-start;gap:0.625rem;margin-bottom:0.625rem}
+    .info-row:last-child{margin-bottom:0}
+    .info-dot{width:6px;height:6px;border-radius:50%;background:#C4633A;flex-shrink:0;margin-top:6px}
+    .info-text{font-size:0.85rem;color:#78716C;line-height:1.5}
+    .urgency-chips{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:1rem}
+    .urgency-chip{
+      padding:0.3rem 0.875rem;border-radius:100px;font-size:0.78rem;font-weight:600;
+      border:1px solid;
+    }
+    .chip-low{background:#F0FDF4;border-color:#BBF7D0;color:#16A34A}
+    .chip-medium{background:#FFF7ED;border-color:#FED7AA;color:#EA580C}
+    .chip-high{background:#FEF2F2;border-color:#FECACA;color:#DC2626}
+    .chip-urgent{background:#581C87;border-color:#7C3AED;color:#fff}
+
+    /* ── RIGHT PANEL ── */
+    .right{background:#FFFFFF;padding:4rem;display:flex;flex-direction:column;justify-content:center;overflow-y:auto}
+    .form-title{font-size:1.6rem;font-weight:800;color:#1C1917;margin-bottom:0.375rem;letter-spacing:-0.025em}
+    .form-sub{color:#78716C;font-size:0.875rem;margin-bottom:2rem}
+
+    /* ── FORM ELEMENTS ── */
+    .field{margin-bottom:1.25rem}
+    .field-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.25rem}
+    label{font-size:0.72rem;font-weight:700;color:#78716C;margin-bottom:0.4rem;display:block;letter-spacing:0.05em;text-transform:uppercase}
+    input,textarea,select{
+      width:100%;background:#FAF8F5;border:1.5px solid #E8DDD5;border-radius:10px;
+      padding:0.8rem 1rem;font-size:0.9rem;color:#1C1917;outline:none;
+      transition:border-color .15s,box-shadow .15s;
+      font-family:'Plus Jakarta Sans',sans-serif;
+    }
+    input:focus,textarea:focus,select:focus{
+      border-color:#C4633A;
+      box-shadow:0 0 0 3px #F0D4C4;
+    }
+    textarea{resize:vertical;min-height:110px;line-height:1.6}
+    
+    /* ── URGENCY SELECTOR ── */
+    .urgency-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0.5rem;margin-top:0.5rem}
+    .urgency-btn{
+      padding:0.625rem 0.5rem;border-radius:8px;border:1.5px solid #E8DDD5;
+      background:#FAF8F5;font-size:0.78rem;font-weight:600;cursor:pointer;
+      text-align:center;transition:all .15s;color:#78716C;
+      font-family:'Plus Jakarta Sans',sans-serif;
+    }
+    .urgency-btn.selected-low{background:#F0FDF4;border-color:#16A34A;color:#16A34A}
+    .urgency-btn.selected-medium{background:#FFF7ED;border-color:#EA580C;color:#EA580C}
+    .urgency-btn.selected-high{background:#FEF2F2;border-color:#DC2626;color:#DC2626}
+    .urgency-btn.selected-urgent{background:#581C87;border-color:#7C3AED;color:#fff}
+
+    /* ── SUBMIT ── */
+    .submit-btn{
+      width:100%;background:#C4633A;color:#fff;border:none;border-radius:100px;
+      padding:1rem;font-size:1rem;font-weight:700;cursor:pointer;
+      transition:all .2s;font-family:'Plus Jakarta Sans',sans-serif;
+      box-shadow:0 4px 20px rgba(196,99,58,0.3);margin-top:0.5rem;
+    }
+    .submit-btn:hover{background:#9E4E2C;box-shadow:0 6px 24px rgba(196,99,58,0.4)}
+    .submit-btn:disabled{background:#E8DDD5;color:#78716C;cursor:not-allowed;box-shadow:none}
+    .submit-btn.loading{position:relative;color:transparent}
+    .submit-btn.loading::after{
+      content:'';position:absolute;top:50%;left:50%;
+      width:18px;height:18px;margin:-9px 0 0 -9px;
+      border:2px solid rgba(255,255,255,0.3);border-top-color:#fff;
+      border-radius:50%;animation:spin .7s linear infinite;
+    }
+
+    /* ── ERROR / PRIVACY ── */
+    .error-box{background:#FEF2F2;border:1px solid #FECACA;border-radius:8px;padding:0.75rem 1rem;font-size:0.85rem;color:#EF4444;margin-bottom:1rem;display:none}
+    .error-box.visible{display:block}
+    .privacy{font-size:0.75rem;color:#78716C;text-align:center;line-height:1.6;margin-top:1.25rem}
+
+    /* ── SUCCESS ── */
+    .success-page{
+      min-height:100vh;display:flex;align-items:center;justify-content:center;
+      background:#FAF8F5;padding:3rem;
+    }
+    .success-card{
+      text-align:center;max-width:460px;animation:popIn .4s ease both;
+    }
+    .success-icon{
+      width:72px;height:72px;border-radius:50%;background:#FEF2F2;
+      border:2px solid #C4633A;display:flex;align-items:center;justify-content:center;
+      font-size:2rem;margin:0 auto 1.5rem;
+    }
+    .success-title{font-size:2rem;font-weight:800;color:#1C1917;margin-bottom:0.75rem;letter-spacing:-0.025em}
+    .success-sub{color:#78716C;font-size:1rem;line-height:1.7;margin-bottom:2rem}
+    .success-btn{
+      background:#C4633A;color:#fff;border:none;border-radius:10px;
+      padding:0.875rem 2.25rem;font-size:1rem;font-weight:700;cursor:pointer;
+      box-shadow:0 4px 20px rgba(196,99,58,0.3);font-family:'Plus Jakarta Sans',sans-serif;
+    }
+
+    @media(max-width:768px){
+      .page{grid-template-columns:1fr}
+      .left{padding:3rem 1.5rem}
+      .right{padding:2.5rem 1.5rem}
+      .field-row{grid-template-columns:1fr}
+      .urgency-grid{grid-template-columns:repeat(2,1fr)}
+    }
+  </style>
+</head>
+<body>
+
+<div class="success-page" id="successPage" style="display:none">
+  <div class="success-card">
+    <div class="success-icon">🤝</div>
+    <div class="success-title">We’re on it!</div>
+    <div class="success-sub">Your request has been prioritized. A specialist is reviewing your case right now and will reach out via your preferred method shortly.</div>
+    <button class="success-btn" onclick="window.history.back()">Return to Dashboard</button>
+  </div>
+</div>
+
+<div id="mainPage">
+  <nav class="nav">
+    <a href="#" class="logo">
+      <span style="font-weight:800;font-size:1.2rem;letter-spacing:-0.03em"><span style="color:#1C1917">JM</span><span style="color:#C4633A">20</span></span>
+    </a>
+    <div class="nav-badge">
+      <div class="nav-badge-dot"></div>
+      <span class="nav-badge-text">PRIORITY SUPPORT</span>
+    </div>
+  </nav>
+
+  <div class="page">
+    <div class="left">
+      <div class="left-tag">Priority Resolution</div>
+      <h1 class="left-title">Let’s get this<br/><span>sorted out.</span></h1>
+      <p class="left-sub">We’re sorry things aren't going smoothly. Tell us what's happening and our senior team will step in to make it right immediately.</p>
+
+      <div class="info-card">
+        <div class="info-card-title">⏱️ Guaranteed Response Times</div>
+        <div class="urgency-chips">
+          <span class="urgency-chip chip-low">Standard — 24h</span>
+          <span class="urgency-chip chip-medium">Fast — 4h</span>
+          <span class="urgency-chip chip-high">Immediate — 1h</span>
+          <span class="urgency-chip chip-urgent">Critical — 15 min</span>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-title">📋 What happens next</div>
+        <div class="info-row"><div class="info-dot"></div><div class="info-text">Your request skips the queue and hits our Slack instantly</div></div>
+        <div class="info-row"><div class="info-dot"></div><div class="info-text">A senior specialist is assigned to your specific case</div></div>
+        <div class="info-row"><div class="info-dot"></div><div class="info-text">We reach out to you directly via your preferred method</div></div>
+      </div>
+    </div>
+
+    <div class="right">
+      <div class="form-title">How can we help?</div>
+      <div class="form-sub">Provide as much detail as possible so we can jump straight to a solution.</div>
+
+      <div class="error-box" id="errorBox">Please complete all required fields to proceed.</div>
+
+      <form id="escalationForm" onsubmit="submitForm(event)">
+        <div class="field-row">
+          <div>
+            <label>How should we address you? *</label>
+            <input type="text" id="full_name" placeholder="Your full name" required/>
+          </div>
+          <div>
+            <label>Your Email Address *</label>
+            <input type="email" id="email" placeholder="email@company.com" required/>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div>
+            <label>Order # (if applicable)</label>
+            <input type="text" id="order_number" placeholder="ORD-0000"/>
+          </div>
+          <div>
+            <label>Phone Number</label>
+            <input type="tel" id="phone" placeholder="+1..." />
+          </div>
+        </div>
+
+        <div class="field" style="margin-bottom:1.25rem">
+          <label>Where should we contact you? *</label>
+          <div class="urgency-grid" style="grid-template-columns:repeat(4,1fr)">
+            <button type="button" class="urgency-btn" onclick="setContact('email')" id="btn-contact-email">📧 Email</button>
+            <button type="button" class="urgency-btn" onclick="setContact('whatsapp')" id="btn-contact-whatsapp">📱 WhatsApp</button>
+            <button type="button" class="urgency-btn" onclick="setContact('phone')" id="btn-contact-phone">📞 Phone</button>
+            <button type="button" class="urgency-btn" onclick="setContact('telegram')" id="btn-contact-telegram">✈️ Telegram</button>
+          </div>
+        </div>
+
+        <div class="field" style="margin-bottom:1.25rem">
+          <label>How critical is this? *</label>
+          <div class="urgency-grid">
+            <button type="button" class="urgency-btn" onclick="setUrgency('low')" id="btn-low">🟢 Standard</button>
+            <button type="button" class="urgency-btn" onclick="setUrgency('medium')" id="btn-medium">🟡 Fast</button>
+            <button type="button" class="urgency-btn" onclick="setUrgency('high')" id="btn-high">🔴 Immediate</button>
+            <button type="button" class="urgency-btn" onclick="setUrgency('urgent')" id="btn-urgent">🚨 Critical</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>What happened? *</label>
+          <textarea id="description" placeholder="The more detail, the better. Tell us what went wrong and how we can best help you right now." required></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn" id="submitBtn">Request Priority Help →</button>
+        <p class="privacy">🔒 Your information is handled securely within EU infrastructure.</p>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── CONFIG ──
+  const SUPABASE_URL  = 'https://wiavnyuchdsfztzhvaua.supabase.co';
+  const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndpYXZueXVjaGRzZnp0emh2YXVhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEwMDI2ODQsImV4cCI6MjA4NjU3ODY4NH0.dXz7vyFglA_lihma__rbtBT8afZZ1YUJEkAmqpFOL6c';
+
+  let selectedUrgency = null;
+  let selectedContact = null;
+
+  function setUrgency(level) {
+    selectedUrgency = level;
+    ['low','medium','high','urgent'].forEach(l => {
+      const btn = document.getElementById('btn-' + l);
+      btn.className = 'urgency-btn' + (l === level ? ' selected-' + l : '');
+    });
+  }
+
+  function setContact(method) {
+    selectedContact = method;
+    ['email','whatsapp','phone','telegram'].forEach(m => {
+      const btn = document.getElementById('btn-contact-' + m);
+      btn.className = 'urgency-btn' + (m === method ? ' selected-medium' : '');
+    });
+  }
+
+  async function submitForm(e) {
+    e.preventDefault();
+    const errorBox = document.getElementById('errorBox');
+    errorBox.classList.remove('visible');
+
+    if (!selectedUrgency) {
+      errorBox.textContent = 'Please select a priority level.';
+      errorBox.classList.add('visible');
+      return;
+    }
+
+    if (!selectedContact) {
+      errorBox.textContent = 'Please select your preferred contact method.';
+      errorBox.classList.add('visible');
+      return;
+    }
+
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.classList.add('loading');
+    btn.textContent = '';
+
+    const payload = {
+      full_name:         document.getElementById('full_name').value.trim(),
+      email:             document.getElementById('email').value.trim(),
+      order_number:      document.getElementById('order_number').value.trim() || null,
+      phone:             document.getElementById('phone').value.trim() || null,
+      urgency:           selectedUrgency,
+      preferred_contact: selectedContact,
+      description:       document.getElementById('description').value.trim(),
+    };
+
+    try {
+      const res = await fetch(SUPABASE_URL + '/rest/v1/escalations_form', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': SUPABASE_ANON,
+          'Authorization': 'Bearer ' + SUPABASE_ANON,
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (res.ok) {
+        document.getElementById('mainPage').style.display = 'none';
+        document.getElementById('successPage').style.display = 'flex';
+      } else {
+        throw new Error('Server error');
+      }
+    } catch {
+      errorBox.textContent = 'Something went wrong. Please try again or contact us directly.';
+      errorBox.classList.add('visible');
+      btn.disabled = false;
+      btn.classList.remove('loading');
+      btn.textContent = 'Request Priority Help →';
+    }
+  }
+</script>
+</body>
+</html>
