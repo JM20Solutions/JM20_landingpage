@@ -88,7 +88,7 @@
       box-shadow:0 0 0 3px #F0D4C4;
     }
     textarea{resize:vertical;min-height:110px;line-height:1.6}
-    
+
     /* ── URGENCY SELECTOR ── */
     .urgency-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0.5rem;margin-top:0.5rem}
     .urgency-btn{
@@ -101,6 +101,14 @@
     .urgency-btn.selected-medium{background:#FFF7ED;border-color:#EA580C;color:#EA580C}
     .urgency-btn.selected-high{background:#FEF2F2;border-color:#DC2626;color:#DC2626}
     .urgency-btn.selected-urgent{background:#581C87;border-color:#7C3AED;color:#fff}
+
+    /* ── EMAIL NOTICE ── */
+    .email-notice{
+      font-size:0.8rem;color:#78716C;background:#FAF8F5;
+      border:1.5px solid #E8DDD5;border-radius:10px;
+      padding:0.75rem 1rem;margin-bottom:1.25rem;
+      display:flex;align-items:center;gap:0.5rem;
+    }
 
     /* ── SUBMIT ── */
     .submit-btn{
@@ -159,8 +167,8 @@
 <div class="success-page" id="successPage" style="display:none">
   <div class="success-card">
     <div class="success-icon">🤝</div>
-    <div class="success-title">We’re on it!</div>
-    <div class="success-sub">Your request has been prioritized. A specialist is reviewing your case right now and will reach out via your preferred method shortly.</div>
+    <div class="success-title">We're on it!</div>
+    <div class="success-sub">Your request has been prioritized. A specialist is reviewing your case right now and will reach out via email with the resolution shortly.</div>
     <button class="success-btn" onclick="window.history.back()">Return to Dashboard</button>
   </div>
 </div>
@@ -179,8 +187,8 @@
   <div class="page">
     <div class="left">
       <div class="left-tag">Priority Resolution</div>
-      <h1 class="left-title">Let’s get this<br/><span>sorted out.</span></h1>
-      <p class="left-sub">We’re sorry things aren't going smoothly. Tell us what's happening and our senior team will step in to make it right immediately.</p>
+      <h1 class="left-title">Let's get this<br/><span>sorted out.</span></h1>
+      <p class="left-sub">We're sorry things aren't going smoothly. Tell us what's happening and our senior team will step in to make it right immediately.</p>
 
       <div class="info-card">
         <div class="info-card-title">⏱️ Guaranteed Response Times</div>
@@ -196,7 +204,7 @@
         <div class="info-card-title">📋 What happens next</div>
         <div class="info-row"><div class="info-dot"></div><div class="info-text">Your request skips the queue and hits our Slack instantly</div></div>
         <div class="info-row"><div class="info-dot"></div><div class="info-text">A senior specialist is assigned to your specific case</div></div>
-        <div class="info-row"><div class="info-dot"></div><div class="info-text">We reach out to you directly via your preferred method</div></div>
+        <div class="info-row"><div class="info-dot"></div><div class="info-text">We reach out to you via email with the resolution</div></div>
       </div>
     </div>
 
@@ -225,17 +233,7 @@
           </div>
           <div>
             <label>Phone Number</label>
-            <input type="tel" id="phone" placeholder="+1..." />
-          </div>
-        </div>
-
-        <div class="field" style="margin-bottom:1.25rem">
-          <label>Where should we contact you? *</label>
-          <div class="urgency-grid" style="grid-template-columns:repeat(4,1fr)">
-            <button type="button" class="urgency-btn" onclick="setContact('email')" id="btn-contact-email">📧 Email</button>
-            <button type="button" class="urgency-btn" onclick="setContact('whatsapp')" id="btn-contact-whatsapp">📱 WhatsApp</button>
-            <button type="button" class="urgency-btn" onclick="setContact('phone')" id="btn-contact-phone">📞 Phone</button>
-            <button type="button" class="urgency-btn" onclick="setContact('telegram')" id="btn-contact-telegram">✈️ Telegram</button>
+            <input type="tel" id="phone" placeholder="+1..."/>
           </div>
         </div>
 
@@ -254,6 +252,10 @@
           <textarea id="description" placeholder="The more detail, the better. Tell us what went wrong and how we can best help you right now." required></textarea>
         </div>
 
+        <div class="email-notice">
+          📧 You will be notified by email with the resolution of your request.
+        </div>
+
         <button type="submit" class="submit-btn" id="submitBtn">Request Priority Help →</button>
         <p class="privacy">🔒 Your information is handled securely within EU infrastructure.</p>
       </form>
@@ -267,21 +269,12 @@
   const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndpYXZueXVjaGRzZnp0emh2YXVhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzEwMDI2ODQsImV4cCI6MjA4NjU3ODY4NH0.dXz7vyFglA_lihma__rbtBT8afZZ1YUJEkAmqpFOL6c';
 
   let selectedUrgency = null;
-  let selectedContact = null;
 
   function setUrgency(level) {
     selectedUrgency = level;
     ['low','medium','high','urgent'].forEach(l => {
       const btn = document.getElementById('btn-' + l);
       btn.className = 'urgency-btn' + (l === level ? ' selected-' + l : '');
-    });
-  }
-
-  function setContact(method) {
-    selectedContact = method;
-    ['email','whatsapp','phone','telegram'].forEach(m => {
-      const btn = document.getElementById('btn-contact-' + m);
-      btn.className = 'urgency-btn' + (m === method ? ' selected-medium' : '');
     });
   }
 
@@ -296,25 +289,18 @@
       return;
     }
 
-    if (!selectedContact) {
-      errorBox.textContent = 'Please select your preferred contact method.';
-      errorBox.classList.add('visible');
-      return;
-    }
-
     const btn = document.getElementById('submitBtn');
     btn.disabled = true;
     btn.classList.add('loading');
     btn.textContent = '';
 
     const payload = {
-      full_name:         document.getElementById('full_name').value.trim(),
-      email:             document.getElementById('email').value.trim(),
-      order_number:      document.getElementById('order_number').value.trim() || null,
-      phone:             document.getElementById('phone').value.trim() || null,
-      urgency:           selectedUrgency,
-      preferred_contact: selectedContact,
-      description:       document.getElementById('description').value.trim(),
+      full_name:    document.getElementById('full_name').value.trim(),
+      email:        document.getElementById('email').value.trim(),
+      order_number: document.getElementById('order_number').value.trim() || null,
+      phone:        document.getElementById('phone').value.trim() || null,
+      urgency:      selectedUrgency,
+      description:  document.getElementById('description').value.trim(),
     };
 
     try {
